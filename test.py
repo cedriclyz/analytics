@@ -38,5 +38,3 @@ pandas_gbq.to_gbq(df, 'ads_bi.etl_fb_ads'
               ,project_id ='magic-adventure-analytics'
               , if_exists = 'append')
 print(df.columns)
-
-# adding changes to test branch
