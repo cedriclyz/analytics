@@ -4,3 +4,5 @@ utils/monstar.json
 utils/fb_key.py
 test.py
 .txt
+utils/alice_firebase.json
+etl_firebase.py

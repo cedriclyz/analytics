@@ -24,9 +24,13 @@ class BQ:
         except NotFound:
             return True
         
-    def tableCreate(self,schema,table_id):
+    def tableCreate(self,schema,table_id,partition_field):
         table_ref = self.dataset_ref.table(table_id)
         table = bigquery.Table(table_ref, schema=schema)
+        table.time_partitioning = bigquery.TimePartitioning(
+            type_=bigquery.TimePartitioningType.DAY,
+            # name of column to use for partitioning
+            field=partition_field) 
         table = self.c.create_table(table)
         print("Created table {}".format(table.table_id))
         return True
@@ -44,6 +48,7 @@ class BQ:
         job = self.c.query(sql)
         rows = job.result()
         print(list(rows))
+        return job
 
         
 if __name__ == '__main__':

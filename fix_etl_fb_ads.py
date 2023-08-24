@@ -20,6 +20,8 @@ ARGS ={
 }    
 
 params_adsLast60_d = {
+        'time_range': {'since':'2023-08-01'.format(**ARGS),
+                   'until':'{tdy}'.format(**ARGS)},
         'level' : 'ad'
         ,'use_unified_attribution_setting' : True   
 }
@@ -62,7 +64,7 @@ if __name__ == '__main__':
     #get data from fb API
     get_fbInsight_last60d =FB(params_adsLast60_d,fields_adsLast60_d,tdy_str)
     ad_list = get_fbInsight_last60d.toList()
-
+    print(ad_list)
     #setting up empty df
     insert = {
             'imp_date':tdy_str,

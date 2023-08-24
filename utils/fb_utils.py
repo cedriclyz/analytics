@@ -44,7 +44,7 @@ class FB:
                     'install':'',
             }
         # get os values
-            os = re.search('^\w+-', self.i[i]['campaign_name']).group(0).replace('-','').lower()
+            os = re.search('^\w+', self.i[i]['campaign_name']).group(0).replace('-','').lower()
             insert['os'] = os
 
         #loop to get other values
