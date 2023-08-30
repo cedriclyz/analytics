@@ -19,6 +19,8 @@ ARGS ={
 }    
 
 params_adsLast60_d = {
+        'time_range': {'since':'2023-08-01'.format(**ARGS),
+                   'until':'{tdy}'.format(**ARGS)},
         'level' : 'ad'
         ,'use_unified_attribution_setting' : True   
 }

@@ -18,11 +18,11 @@ class FB:
         myact = AdAccount(key['adaccount-id'])
         self.i = myact.get_insights(params=params, fields=fields)
         self.dt = run_dt
-      
+
     def toList(self):
         list =[]
         for i in range(0,len(self.i)):
-            list.append((self.i[i]['ad_name'],self.i[i]['attribution_setting']))
+            list.append((self.i[i]['adset_name'],self.i[i]['attribution_setting']))
         return list
 
     def toDf(self,df,attribution_setting):
@@ -61,6 +61,7 @@ class FB:
                                 except:
                                     insert['install'] = str(int(self.i[i]['actions'][0]['1d_view']))
                             finally:
+                                print('not_captured')
                                 print(self.i[i])
                         elif attribution_setting == '1d_click':
                             try:
