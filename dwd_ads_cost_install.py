@@ -80,11 +80,11 @@ if __name__ == '__main__':
             ,gender
             ,age
             ,os
-            ,cast(if(impressions = '','0',impressions) as numeric) impressions
-            ,cast(if(reach = '','0',reach) as numeric) reach
-            ,cast(if(clicks = '','0',clicks) as numeric) clicks
-            ,cast(if(install = '','0',install) as numeric) install
-            ,cast(if(spend = '','0',spend) as numeric) spend
+            ,cast(if(impressions = '',null,impressions) as numeric) impressions
+            ,cast(if(reach = '',null,reach) as numeric) reach
+            ,cast(if(clicks = '',null,clicks) as numeric) clicks
+            ,cast(if(install = '',null,install) as numeric) install
+            ,cast(if(spend = '',null,spend) as numeric) spend
         FROM 
             {project}.{dataset}.{table_id_src} 
         where imp_date = '{tdy}'

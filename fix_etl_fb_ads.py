@@ -26,7 +26,7 @@ params_adsLast60_d = {
         ,'use_unified_attribution_setting' : True   
 }
 
-fields_adsLast60_d=['adset_name','attribution_setting']
+fields_adsLast60_d=['campaign_name','adset_name','attribution_setting']
 
 params_tdy = {
     'time_range': {'since':'{tdy}'.format(**ARGS),
@@ -35,7 +35,7 @@ params_tdy = {
     'action_breakdowns':['action_type'],
     'filtering': [{'field':'action_type','operator':'CONTAIN','value':'mobile_app_install'},
                   #{'field':'spend','operator':'GREATER_THAN','value':0.00},
-                  {'field':'adset.name','operator':'EQUAL','value':''}],
+                  {'field':'campaign.name','operator':'EQUAL','value':''}],
     'breakdowns':['gender','age'],
     'action_attribution_windows' : ['1d_click','skan_click','1d_view']
     ,'use_unified_attribution_setting' : True  
@@ -96,6 +96,7 @@ if __name__ == '__main__':
         df.to_csv('fix_etl_fb_ads.csv')
 
     if ENV == 'write':
+        print('write_start')
         bq = BQ(ARGS['dataset'],ARGS['config'])
     
         if bq.tableIfNotExist(ARGS['table_id']) == True:

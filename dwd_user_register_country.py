@@ -12,7 +12,7 @@ ARGS ={
     'tdy' : tdy_str
     ,'ytd' : ytd_str
     ,'project': PROJECT[sys.argv[2]]
-    ,'dataset_src' : 'dev_02'
+    ,'dataset_src' : 'release'
     ,'dataset_dst' : 'ads_bi'
     ,'table_id_src': 'analytics_server_register'
     ,'table_id_dst': 'dwd_user_reg_ctry_d'
@@ -90,7 +90,7 @@ def main():
                 ,json_extract_scalar(data,'$.uid') uid
                 ,json_extract_scalar(data,'$.ip') ip
             from 
-                monster-analytics-388208.dev02.analytics_server_register
+                monster-analytics-388208.{dataset_src}.analytics_server_register
             where 
                 date(time) = '{tdy}'
     '''.format(**ARGS)

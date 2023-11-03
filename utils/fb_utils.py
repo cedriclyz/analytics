@@ -7,9 +7,9 @@ from utils.fb_key import key
 params_adsLast60_d = {
         # 'time_range': {'since':'{tdy}'.format(**ARGS),
         #                'until':'{tdy}'.format(**ARGS)},
-        'level' : 'ad'   
+        'level' : 'adset'   
 }
-fields_adsLast60_d=['ad_name']
+fields_adsLast60_d=['adset_name']
 
 class FB:
     
@@ -22,11 +22,12 @@ class FB:
     def toList(self):
         list =[]
         for i in range(0,len(self.i)):
-            list.append((self.i[i]['adset_name'],self.i[i]['attribution_setting']))
+            list.append((self.i[i]['campaign_name'],self.i[i]['attribution_setting']))
         return list
 
     def toDf(self,df,attribution_setting):
         for i in range(0,len(self.i)):
+            print(self.i[i])
         # init dict to insert to dataframe
             insert = {
                     'imp_date':self.dt,
@@ -50,30 +51,42 @@ class FB:
         #loop to get other values
             for k,v in insert.items():
                 for k1,v1 in self.i[i].items():
-                    if k==k1: insert[k] = v1
-                    elif k1=='actions':
-                        if attribution_setting == '1d_view_1d_click':
-                            try: 
-                                insert['install'] = str(int(self.i[i]['actions'][0]['1d_click'])+ int(self.i[i]['actions'][0]['1d_view']))
-                            except:
-                                try:
-                                    insert['install'] = str(int(self.i[i]['actions'][0]['1d_click']))
-                                except:
-                                    insert['install'] = str(int(self.i[i]['actions'][0]['1d_view']))
-                            finally:
-                                print('not_captured')
-                                print(self.i[i])
-                        elif attribution_setting == '1d_click':
+                    if k==k1:
+                        print(k1) 
+                        insert[k] = v1
+
+            for k1,v1 in self.i[i].items():
+                if k1=='actions':
+                    print(k1)
+                    if attribution_setting == '1d_view_1d_click':
+                        print('1d_view_1d_click_install_attribution')
+                        try: 
+                            insert['install'] = str(int(self.i[i]['actions'][0]['1d_click'])+ int(self.i[i]['actions'][0]['1d_view']))
+                        except:
                             try:
                                 insert['install'] = str(int(self.i[i]['actions'][0]['1d_click']))
                             except:
-                                print(f'***********{self.i[i]}')
-                        elif attribution_setting == 'skan':
-                            insert['install'] = str(int(self.i[i]['actions'][0]['skan_click']))
-                        else:    
-                            insert['install'] = '0'
-                   
-            # print(insert)
+                                try:
+                                    insert['install'] = str(int(self.i[i]['actions'][0]['1d_view']))
+                                except Exception as e:
+                                    print('not_captured')
+                                    print(self.i[i])
+                                    print(e)
+                        # finally:
+                        #     print('not_captured')
+                        #     print(self.i[i])
+                    elif attribution_setting == '1d_click':
+                        print('1d_click_install_attribution')
+                        try:
+                            insert['install'] = str(int(self.i[i]['actions'][0]['1d_click']))
+                        except:
+                            print(f'***********{self.i[i]}')
+                    elif attribution_setting == 'skan':
+                        insert['install'] = str(int(self.i[i]['actions'][0]['skan_click']))
+                    else:    
+                        insert['install'] = None
+                    
+            print(insert)
 
             df_insert = pd.DataFrame.from_dict([insert],orient='columns')
             # print (f'insert_df:{df_insert}')

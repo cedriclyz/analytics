@@ -78,7 +78,7 @@ def main():
        sql = '''
             delete
             from {project}.{dataset_dst}.{table_id_dst}
-            where dtstatdate = '{tdy}'
+            where imp_date = '{tdy}'
         '''.format(**ARGS)
        
        bq.execute(sql)
