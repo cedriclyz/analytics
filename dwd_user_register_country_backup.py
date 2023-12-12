@@ -12,7 +12,7 @@ ARGS ={
     'tdy' : tdy_str
     ,'ytd' : ytd_str
     ,'project': PROJECT[sys.argv[2]]
-    ,'dataset_src' : 'prod'
+    ,'dataset_src' : 'release'
     ,'dataset_dst' : 'ads_bi'
     ,'table_id_src': 'analytics_server_register'
     ,'table_id_dst': 'dwd_user_reg_ctry_d'

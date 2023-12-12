@@ -20,18 +20,19 @@ ARGS_UNITY ={
     ,'scale' :'hour'
     ,'start':f'{tdy_str}T00:00:00Z'
     ,'end':f'{tdy_str}T23:59:00Z'
-    ,'gameIds':'5351291'
+    ,'gameIds1':'5351290'
+    #{''5351291','}
 }
 
 def get_adsRevDf():
-    url ='https://monetization.api.unity.com/stats/v1/operate/organizations/{organizationId}?groupBy={groupBy}&fields={fields}&scale={scale}&start={start}&end={end}&apikey={apiKeyValue}&gameIds={gameIds}'.format(**ARGS_UNITY)
-    # print(url)
+    url ='https://monetization.api.unity.com/stats/v1/operate/organizations/{organizationId}?groupBy={groupBy}&fields={fields}&scale={scale}&start={start}&end={end}&apikey={apiKeyValue}&gameIds={gameIds1},{gameIds2}'.format(**ARGS_UNITY)
+    print(url)
     r = requests.get(url)
     print(r.status_code)
     buff = io.StringIO(r.text)
 
     df= pd.read_csv(buff)
-    # print(df.head())
+    # print(df)
     return df
 
 ARGS ={

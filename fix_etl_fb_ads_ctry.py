@@ -9,23 +9,18 @@ from google.cloud import bigquery
 import os
 
 tdy_dt = datetime.strptime(sys.argv[1], '%Y%m%d')
-lag60 = tdy_dt +timedelta(days=-60)
 tdy_str = datetime.strftime(tdy_dt, '%Y-%m-%d')
-lag60str = datetime.strftime(lag60, '%Y-%m-%d')
-
 ENV = sys.argv[3]
 ARGS ={
     'tdy' : tdy_str
-    ,'lag60': lag60str
     ,'project': PROJECT[sys.argv[2]]
     ,'dataset' : 'ads_bi'
-    ,'table_id': 'etl_fb_ads'
+    ,'table_id': 'etl_fb_ads_ctry'
     ,'config' : sys.argv[2]
 }    
 
-print (ARGS)
 params_adsLast60_d = {
-        'time_range': {'since':'{lag60}'.format(**ARGS),
+        'time_range': {'since':'2023-08-01'.format(**ARGS),
                    'until':'{tdy}'.format(**ARGS)},
         'level' : 'adset'
         ,'use_unified_attribution_setting' : True   
@@ -41,7 +36,7 @@ params_tdy = {
     'filtering': [{'field':'action_type','operator':'CONTAIN','value':'mobile_app_install'},
                   #{'field':'spend','operator':'GREATER_THAN','value':0.00},
                   {'field':'campaign.name','operator':'EQUAL','value':''}],
-    'breakdowns':['gender','age'],
+    'breakdowns':['country'],
     'action_attribution_windows' : ['1d_click','skan_click','1d_view']
     ,'use_unified_attribution_setting' : True  
 }
@@ -53,8 +48,8 @@ schema = [
         ,bigquery.SchemaField("campaign_name", "STRING")
         ,bigquery.SchemaField("adset_name", "STRING")
         ,bigquery.SchemaField("os", "STRING")
-        ,bigquery.SchemaField("age", "STRING")
-        ,bigquery.SchemaField("gender", "STRING")
+        ,bigquery.SchemaField("country ", "STRING")
+        ##,bigquery.SchemaField("gender", "STRING")
         ,bigquery.SchemaField("date_start", "STRING")
         ,bigquery.SchemaField("date_stop", "STRING")
         ,bigquery.SchemaField("spend", "STRING")
@@ -76,8 +71,8 @@ if __name__ == '__main__':
             'campaign_name':'',
             'adset_name':'',
             'os':'',
-            'age':'',
-            'gender':'',
+            'country ':'',
+            ##'gender':'',
             'date_start':'',
             'date_stop':'',
             'spend': '',
@@ -98,7 +93,7 @@ if __name__ == '__main__':
     if ENV == 'check':
         os.chdir('test')
 
-        df.to_csv('fix_etl_fb_ads.csv')
+        df.to_csv('fix_etl_fb_ads_ctry.csv')
 
     if ENV == 'write':
         print('write_start')
